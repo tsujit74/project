@@ -1,0 +1,134 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+.reviewCard{
+  border: 1px solid #fe424d;
+  padding: 10px;
+}
+
+</style>
+<body>
+
+<div class="main" >
+    <div class="user-profile sidebar mt-1">
+        <h4>User Details</h4>
+        <div class="user-info">
+          <div class="user-details">
+            <h4 class="username mb-3 user-detail">
+              Username: <b> <%= currUser.username %></b>
+            </h4>
+            <p class="email mb-3 user-detail">
+              Email: <b> <%= currUser.email %></b>
+            </p>
+            <p class="userId mb-3 user-detail">
+              User Id: <b><%= currUser._id %></b></p>
+            <div class="ms-lg-2">
+                <a href="#" id="showUserListing" class="btn btn-primary">My Listing</a>
+            <a href="#" id="showUserReviews" class="btn btn-primary">My Review</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+    <div class="userPage main-content">
+      <div class="row mt-2 userListing">
+        <% let userListings = allListing.filter(listing => currUser && currUser._id.equals(listing.owner._id)); %>
+        <div class="d-flex ms-0 align-items-center"  style="position: sticky; top: 0; padding: 8px; z-index: 9; background-color: #e5e5e5;">
+            <h3>Your Listing</h3>
+            <hr class="d-none d-md-block ms-3 me-3"> 
+            <p class="ms-auto mb-0">Total listing: <b><%= userListings.length %></b></p> 
+        </div><hr>
+          <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1">
+              <% if (userListings.length === 0) { %>
+                  <div class="col-12 col-sm-10 col-md-8 col-lg-6 text-center d-flex justify-content-center">
+                      <img src="/assets/result-not-found-1.png" alt="Image not found" class="img-fluid"></img>
+                  </div>
+                  <div class="col-12 text-center mt-3">
+                      <a href="/listings/new" class="btn btn-outline-dark">Create Listing</a>
+                  </div>
+              <% } else { %>
+                  <% userListings.forEach(listing => { %>
+                      <a href="/listings/<%= listing._id %>" class="listing-link col-12 mb-3">
+                          <div class="card listing-card">
+                              <img
+                                  src="<%= listing.image.url %>"
+                                  class="card-img-top"
+                                  alt="listing image"
+                                  style="height: 20rem"
+                              />
+                              <div class="card-img-overlay"></div>
+                              <div class="card-body">
+                                  <p class="card-text">
+                                      <b>
+                                          <%= listing.title %>
+                                      </b>
+                                      <br />
+                                      &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                                      <i class="tax-Info"> +18% GST</i>
+                                  </p>
+                              </div>
+                          </div>
+                      </a>
+                  <% }); %>
+              <% } %>
+          </div>
+      </div>
+  
+      <div class="container mt-3 userReviews" style="display: none;">
+          <h3>Reviews for Your Listings</h3><hr>
+          <% if (allListings.length === 0) { %>
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 text-center d-flex justify-content-center">
+              <img src="/assets/result-not-found-1.png" alt="Image not found" class="img-fluid"></img>
+          </div>
+          <% } else { %>
+              <% allListings.forEach(listing => { %>
+                  <div class="listing-reviews mb-5">
+                      <h4><%= listing.title %></h4>
+                      <% if (listing.reviews.length === 0) { %>
+                          <p>No reviews for this listing.</p>
+                      <% } else { %>
+                          <% listing.reviews.forEach(review => { %>
+                              <div class="reviewCard col-12 col-md-5 ms-md-2 mb-3">
+                                  <div class="card-body">
+                                      <h5 class="card-title">@<%= review.author.username %></h5>
+                                      <p class="starability-result card-text mb-2" data-rating="<%= review.rating %>"></p>
+                                      <p class="card-text"><%= review.comment %></p>
+                                      <% if (currUser._id.equals(review.author._id)) { %>
+                                          <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                                              <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                          </form>
+                                      <% } %>
+                                  </div>
+                              </div>
+                          <% }); %>
+                      <% } %>
+                  </div>
+              <% }); %>
+          <% } %>
+      </div>
+  </div>
+  
+  <script>
+      const showListingBtn = document.querySelector("#showUserListing");
+      const showReviewsBtn = document.querySelector("#showUserReviews");
+      const userListingPage = document.querySelector(".userListing");
+      const userReviewsPage = document.querySelector(".userReviews");
+  
+      showListingBtn.addEventListener("click", () => {
+          userListingPage.style.display = "block";
+          userReviewsPage.style.display = "none";
+          showListingBtn.classList.add("active");
+          showReviewsBtn.classList.remove("active");
+      });
+  
+      showReviewsBtn.addEventListener("click", () => {
+          userReviewsPage.style.display = "block";
+          userListingPage.style.display = "none";
+          showReviewsBtn.classList.add("active");
+          showListingBtn.classList.remove("active");
+      });
+  </script>
+  
+</body>

@@ -1,0 +1,52 @@
+<style>
+    .alert-flash{
+        position:absolute;
+        z-index: 9;
+    }
+</style>
+
+<% if(success && success.length ) { %>
+    <div class="alert alert-success d-flex align-items-center col-6 offset-3 mt-2 justify-content-between alert-flash" role="alert">
+        <div class="d-flex align-items-center">
+            <svg class="bi flex-shrink-0 me-2" width="16" height="16" role="img" aria-label="Success:">
+                <use xlink:href="#check-circle-fill" />
+            </svg>
+            <div>
+                <%= success %>
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+<% } %>
+
+<% if(error && error.length ) { %>
+    <div class="alert alert-warning d-flex align-items-center col-6 offset-3 mt-2 justify-content-between alert-flash" role="alert">
+        <div class="d-flex align-items-center">
+            <svg class="bi flex-shrink-0 me-2" width="16" height="16" role="img" aria-label="Warning:">
+                <use xlink:href="#exclamation-triangle-fill" />
+            </svg>
+            <div>
+                <%= error %>
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>  
+<% } %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Select all flash messages
+      const flashMessages = document.querySelectorAll('.alert-flash');
+      
+      // Set a timeout to hide each flash message
+      flashMessages.forEach(msg => {
+        setTimeout(() => {
+          // Use Bootstrap's method to dismiss alerts
+          const alert = bootstrap.Alert.getOrCreateInstance(msg);
+          alert.close();
+        }, 2000); // Adjust timeout duration as needed (5000ms = 5 seconds)
+      });
+    });
+  </script>
+  
+
