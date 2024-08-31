@@ -58,3 +58,21 @@ module.exports.isReviewAuthor = async(req, res, next) => {
     }
     next();
 };
+
+ module.exports.trackListingView = async (req, res, next) => {
+    const listingId = req.params.id;
+    if (!req.session.viewedListings) {
+        req.session.viewedListings = [];
+    }
+
+    if (!req.session.viewedListings.includes(listingId)) {
+        const listing = await Listing.findById(listingId);
+        if (listing) {
+            listing.views += 1;
+            await listing.save();
+            req.session.viewedListings.push(listingId);
+        }
+    }
+    next();
+};
+

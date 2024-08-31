@@ -13,6 +13,7 @@ body {
 .navbar {
     height: 5rem;
     background-color: #fff;
+    z-index: 1 !important;
 }
 
 .fa-compass {

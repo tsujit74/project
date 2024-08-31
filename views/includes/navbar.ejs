@@ -97,12 +97,12 @@
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
       </div>
       <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
+        <form class="d-flex search-bar needs-validation" action="/listings/searchItem" method="get" role="search" novalidate>
           <input
             class="form-control me-2 search-input"
-            type="search"
+            type="search" name="q"
             placeholder="Search destinations"
-            aria-label="Search"
+            aria-label="Search" 
           />
           <button class="btn search-btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>

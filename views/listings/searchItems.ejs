@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-2">
+  <% if (allListing.length === 0) { %>
+  <div class="alert col-10 alert-info mx-auto my-0">
+    No listings found for this search <b><%= searchQuery %></b>.
+  </div>
+  <% } %>
+  <div
+    class="row col-10 row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mx-auto my-0"
+  >
+    <% for(let listing of allListing){ %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card listing-card">
+        <img
+          src="<%=   listing.image.url %>"
+          class="card-img-top"
+          alt="listing image"
+          style="height: 20rem"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text">
+            <b>
+              <b> <i>@<%=listing.owner.username %></i> </b><br />
+              <%= listing.title %>
+            </b>
+            <br />
+            &#8377; <%= listing.price.toLocaleString("en-IN") %> / nights
+            <i class="tax-Info"> +18% GST</i>
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+  </div>
+</div>

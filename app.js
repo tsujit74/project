@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
-// console.log(process.env.SECRET);
 
 const express = require("express");
 const app = express();
@@ -21,9 +20,10 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const { error } = require("console");
+const Listing = require("./models/listing.js");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 const dbUrl = process.env.ATLASDB_URL;
-console.log(dbUrl);
 main()
   .then(() => {
     console.log("Connected to mongoDB");
@@ -68,7 +68,7 @@ const sessionOptions = {
 };
 
 app.get("/", (req, res) => {
-    res.redirect("/listings");
+  res.redirect("/listings");
 });
 
 app.use(session(sessionOptions));
@@ -88,10 +88,26 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/listings/searchItem",wrapAsync( async (req, res) => {
+  const searchQuery = req.query.q;
+  const searchReg = new RegExp(searchQuery, "i");
+
+  let allListing = await Listing.find({
+    $or: [
+      { title: searchReg },
+      { description: searchReg },
+      { category: searchReg },
+      { location: searchReg },
+      { username:searchReg},
+    ],
+  }).populate("owner");
+
+  res.render("listings/searchItems", { allListing,searchQuery });
+}));
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
-
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));

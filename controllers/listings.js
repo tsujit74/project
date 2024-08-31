@@ -2,7 +2,33 @@ const Listing = require("../models/listing.js");
 const tt = require("@tomtom-international/web-sdk-services/dist/services-node.min.js");
 
 module.exports.index = async (req, res) => {
-  let allListing = await Listing.find({}).populate("owner").sort({createdAt:-1});
+  const { filter } = req.query;
+
+  const filterMap = {
+    all: {},
+    trending: { views: { $gte: 5 } }, // Adjust the threshold for trending as needed
+    rooms: { category: "Rooms" },
+    temple: { category: "Temple" },
+    cities: { category: "Cities" },
+    mountains: { category: "Mountains" },
+    castles: { category: "Castles" },
+    camping: { category: "Camping" },
+    arctic: { category: "Arctic" },
+    farms: { category: "Farms" },
+    domes: { category: "Domes" },
+    boats: { category: "Boats" },
+  };
+  let query = filterMap[filter] || {};
+  let sortCriteria = { createdAt: -1, views: -1 };
+
+  if (filter === "trending") {
+    sortCriteria = { views: -1 }; // Sort by view count in descending order
+  }
+
+  let allListing = await Listing.find(query)
+    .populate("owner")
+    .sort(sortCriteria);
+
   res.render("listings/index.ejs", { allListing });
 };
 
@@ -15,7 +41,6 @@ module.exports.showListing = async (req, res) => {
   const listing = await Listing.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
     .populate("owner");
-    console.log(listing);
   if (!listing) {
     req.flash("error", "Listing you requested does not exist!");
     res.redirect("/listings");
@@ -43,10 +68,12 @@ module.exports.createListing = async (req, res, next) => {
   let url = req.file.path;
   let filename = req.file.filename;
   const newListing = new Listing(req.body.listing);
+  console.log(newListing);
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
   newListing.position = geoJsonData.position;
-  await newListing.save();
+  let save = await newListing.save();
+  console.log(save);
   req.flash("success", "New Listing Created");
   res.redirect("/listings");
 };
