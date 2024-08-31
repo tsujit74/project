@@ -1,5 +1,13 @@
 <% layout("/layouts/boilerplate") %>
+<style>
+  .show-view{
+    width: 700px;
+  }
 
+  .show-img{
+    height: 300px;
+  }
+</style>
 <body>
 
     <script>
@@ -8,10 +16,10 @@
     </script>
 
   <div class="row mt-3">
-    <div class="col-8 offset-3">
-      <h3><b> <%= listing.title %> </b></h3>
-    </div>
-    <div class="card listing-card col-6 offset-3 show-card">
+    <div class="card listing-card col-11 show-view mx-auto my-0">
+      <div>
+        <h3><b> <%= listing.title %> </b></h3>
+      </div>
       <img
         src="<%= listing.image.url %>"
         class="card-img-top show-img"
@@ -32,20 +40,20 @@
     <br />
 
     <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
-    <div class="btns">
+    <div class="btns col-11 show-view mt-2 mx-auto my-0">
       <a
         href="/listings/<%= listing._id %>/edit"
-        class="btn btn-primary col-1 offset-3"
+        class="btn btn-primary ms-0 "
         >Edit</a
       >
 
       <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
-        <button class="btn btn-danger offset-4">Delete</button>
+        <button class="btn btn-danger ms-3">Delete</button>
       </form>
     </div>
     <% } %>
 
-    <div class="col-8 offset-3 mb-3">
+    <div class="col-11 show-view  mx-auto my-0 mb-3">
       <% if(currUser) { %>
       <hr />
       <h4>Leave a Review</h4>
@@ -130,7 +138,10 @@
         <% for(let review of listing.reviews) { %>
         <div class="card col-12 col-md-5 ms-md-2 mb-3">
           <div class="card-body">
-            <h5 class="card-title">@<%= review.author.username %></h5>
+            <div class="d-flex align-items-center ms-0">
+              <h5 class="card-title">@<%= review.author.username %></h5>
+            <p class="card-text ms-auto" style="font-size: 14px;"><%= review.createdAt.toLocaleDateString() %></p>
+            </div>
             <p
               class="starability-result card-text mb-2"
               data-rating="<%= review.rating %>"
@@ -151,7 +162,7 @@
       </div>
       <% } %>
     </div>
-    <div class="col-8 offset-3 mb-3">
+    <div class="col-10 offset-1 mb-3 mx-auto my-0">
       <h3>Where You'll be</h3>
       <div id="map" class="map"></div>
     </div>
