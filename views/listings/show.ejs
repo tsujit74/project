@@ -1,24 +1,125 @@
 <% layout("/layouts/boilerplate") %>
 <style>
-  .show-view{
-    width: 700px;
+  /* Card styling for modern look */
+  .show-view {
+    max-width: 700px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    transition: 0.3s;
   }
 
-  .show-img{
+  /* Image styling */
+  .show-img {
     height: 300px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Card hover effect */
+  .card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Button styling */
+  .btn {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  /* List group modern style */
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    padding: 12px;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .list-group-item:hover {
+    background: #f8f9fa;
+  }
+
+  /* Form styling */
+  .form-control {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+
+  /* Review card styling */
+  .review-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .review-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .show-view {
+      width: 100%;
+      padding: 15px;
+    }
+
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   }
 </style>
-<body>
 
-    <script>
-        const mapToken = "<%= process.env.MAP_API_KEY %>";
-        const listing = <%- JSON.stringify(listing) %>;
-    </script>
+
+<body>
+  <script>
+    const mapToken = "<%= process.env.MAP_API_KEY %>";
+    const listing = <%- JSON.stringify(listing) %>;
+  </script>
 
   <div class="row mt-3">
     <div class="card listing-card col-11 show-view mx-auto my-0">
       <div>
-        <h3><b> <%= listing.title %> </b></h3>
+        <h3><b><%= listing.title %></b></h3>
       </div>
       <img
         src="<%= listing.image.url %>"
@@ -26,148 +127,195 @@
         alt="listing_image"
       />
       <div class="card-body">
-        <p class="card-text">
-          <b>Created By:</b><i> <%= listing.owner.username %></i>
-        </p>
+        <p class="card-text"><b>Created By:</b> <i><%= listing.owner.username %></i></p>
         <p class="card-text"><%= listing.description %></p>
-        <p class="card-text">
-          &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-        </p>
         <p class="card-text"><%= listing.location %></p>
         <p class="card-text"><%= listing.country %></p>
       </div>
     </div>
     <br />
 
-    <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
     <div class="btns col-11 show-view mt-2 mx-auto my-0">
-      <a
-        href="/listings/<%= listing._id %>/edit"
-        class="btn btn-primary ms-0 "
-        >Edit</a
-      >
+      <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary ms-0">Edit</a>
+        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
+          <button class="btn btn-danger ms-3">Delete</button>
+        </form>
+      <% } %>
+      <form action="/listings/<%= listing._id %>/book" method="POST">
+        <button type="submit" class="btn btn-primary">Book Guide</button>
+    </form>
 
-      <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
-        <button class="btn btn-danger ms-3">Delete</button>
-      </form>
+    
+    
+    
+    
     </div>
-    <% } %>
 
-    <div class="col-11 show-view  mx-auto my-0 mb-3">
-      <% if(currUser) { %>
-      <hr />
-      <h4>Leave a Review</h4>
-      <form
-        action="/listings/<%= listing._id %>/reviews"
-        method="post"
-        novalidate
-        class="needs-validation"
-      >
-        <div class="mb-1 mt-3">
-          <label for="rating">Rating:</label>
-          <fieldset class="starability-slot">
-            <input
-              type="radio"
-              id="no-rate"
-              class="input-no-rate"
-              name="review[rating]"
-              value="1"
-              checked
-              aria-label="No rating."
-            />
-            <input
-              type="radio"
-              id="first-rate1"
-              name="review[rating]"
-              value="1"
-            />
-            <label for="first-rate1" title="Terrible">1 star</label>
-            <input
-              type="radio"
-              id="first-rate2"
-              name="review[rating]"
-              value="2"
-            />
-            <label for="first-rate2" title="Not good">2 stars</label>
-            <input
-              type="radio"
-              id="first-rate3"
-              name="review[rating]"
-              value="3"
-            />
-            <label for="first-rate3" title="Average">3 stars</label>
-            <input
-              type="radio"
-              id="first-rate4"
-              name="review[rating]"
-              value="4"
-            />
-            <label for="first-rate4" title="Very good">4 stars</label>
-            <input
-              type="radio"
-              id="first-rate5"
-              name="review[rating]"
-              value="5"
-            />
-            <label for="first-rate5" title="Amazing">5 stars</label>
-          </fieldset>
-        </div>
+    <div class="col-11 show-view mt-4 mx-auto my-0">
+      <h4>Recommended Hotels Nearby</h4>
+      <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Tranquil Retreat Inn <span>₹2,500</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Divine Stay Residency <span>₹3,000</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Pilgrim’s Haven Lodge <span>₹2,200</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Sacred Pathway Suites <span>₹4,000</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Serene Temple View Hotel <span>₹3,500</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Eternal Bliss Stay <span>₹2,800</span>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+               Harmony Pilgrims Rest <spna>₹3,200</spna>
+              <button class="btn btn-primary btn-sm">Book Now</button>
+          </li>
+      </ul>
+    </div>
+    
+  
+    
 
-        <div class="mb-3">
-          <label for="comment" class="form-label">Comment:</label>
-          <textarea
-            name="review[comment]"
-            id="comment"
-            class="form-control"
-            placeholder="Comment"
-            required
-          ></textarea>
-          <div class="invalid-feedback">Please add some comment for review</div>
-        </div>
+    <div class="col-11 show-view mx-auto my-0 mb-3">
+      <% if (currUser) { %>
+        <hr />
+        <h4>Leave a Review</h4>
+        <form
+          action="/listings/<%= listing._id %>/reviews"
+          method="post"
+          novalidate
+          class="needs-validation"
+        >
+          <div class="mb-1 mt-3">
+            <label for="rating">Rating:</label>
+            <fieldset class="starability-slot">
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
 
-        <div class="mb-3">
-          <button class="btn btn-outline-dark">Submit</button>
-        </div>
-      </form>
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment:</label>
+            <textarea
+              name="review[comment]"
+              id="comment"
+              class="form-control"
+              placeholder="Comment"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please add some comment for review</div>
+          </div>
+
+          <div class="mb-3">
+            <button class="btn btn-outline-dark">Submit</button>
+          </div>
+        </form>
       <% } %>
       <hr />
 
-      <% if(listing.reviews.length > 0) { %>
-      <div class="row">
-        <b><p>All Reviews</p></b>
-        <% for(let review of listing.reviews) { %>
-        <div class="card col-12 col-md-5 ms-md-2 mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-center ms-0">
-              <h5 class="card-title">@<%= review.author.username %></h5>
-            <p class="card-text ms-auto" style="font-size: 14px;"><%= review.createdAt.toLocaleDateString() %></p>
+      <% if (listing.reviews.length > 0) { %>
+        <div class="row">
+          <b><p>All Reviews</p></b>
+          <% for (let review of listing.reviews) { %>
+            <div class="card col-12 col-md-5 ms-md-2 mb-3">
+              <div class="card-body">
+                <div class="d-flex align-items-center ms-0">
+                  <h5 class="card-title">@<%= review.author.username %></h5>
+                  <p class="card-text ms-auto" style="font-size: 14px;"><%= review.createdAt.toLocaleDateString() %></p>
+                </div>
+                <p class="starability-result card-text mb-2" data-rating="<%= review.rating %>"></p>
+                <p class="card-text"><%= review.comment %></p>
+              </div>
+
+              <% if (currUser && currUser._id.equals(review.author._id)) { %>
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="mb-3">
+                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+              <% } %>
             </div>
-            <p
-              class="starability-result card-text mb-2"
-              data-rating="<%= review.rating %>"
-            ></p>
-            <p class="card-text"><%= review.comment %></p>
-          </div>
-          <% if(currUser && currUser._id.equals(review.author._id)) { %>
-          <form
-            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-            method="post"
-            class="mb-3"
-          >
-            <button class="btn btn-sm btn-outline-danger">Delete</button>
-          </form>
           <% } %>
         </div>
-        <% } %>
-      </div>
       <% } %>
     </div>
+
     <div class="col-10 offset-1 mb-3 mx-auto my-0">
-      <h3>Where You'll be</h3>
+      <h3>Where You'll be .</h3>
       <div id="map" class="map"></div>
     </div>
     <hr />
   </div>
+
   <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.1/maps/maps-web.min.js'></script>
+  <script>
+    function testRouteAPI() {
+      if (!navigator.geolocation) {
+        document.getElementById("distance-time").innerHTML = "Geolocation is not supported.";
+        return;
+      }
+  
+      navigator.geolocation.getCurrentPosition(position => {
+        const origin = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+  
+        const destination = {
+          lat: 13.6288,  // Tirupati Latitude
+          lng: 79.4192   // Tirupati Longitude
+        };
+  
+        const apiKey = "AKZLb1A5lzD8pWA70m0haKsBM4Ehc4vE"; // Replace with your actual API key
+        const apiUrl = `https://api.tomtom.com/routing/1/calculateRoute/${origin.lat},${origin.lng}:${destination.lat},${destination.lng}/json?key=${apiKey}&travelMode=car`;
+  
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            console.log("Route Data:", data);
+            if (data.routes && data.routes.length > 0) {
+              const route = data.routes[0].summary;
+              document.getElementById("distance-time").innerHTML =
+                `📍 Distance: ${(route.lengthInMeters / 1000).toFixed(1)} km | ⏳ Time: ${(route.travelTimeInSeconds / 60).toFixed(0)} min`;
+            } else {
+              document.getElementById("distance-time").innerHTML = "Unable to calculate route.";
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching route details:", error);
+            document.getElementById("distance-time").innerHTML =
+              "Error fetching route details. Check API Key.";
+          });
+      }, () => {
+        document.getElementById("distance-time").innerHTML = "Geolocation is disabled.";
+      });
+    }
+  
+    window.onload = testRouteAPI;
+  </script>
+  
+  <p id="distance-time">Fetching route details...</p>
+  
+  
   <script src="/js/map.js"></script>
 </body>

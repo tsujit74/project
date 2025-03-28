@@ -1,128 +1,211 @@
 <style>
-  /* General styling for search input and button */
-.search-input {
-  border-radius: 25px;
-  padding: 0.5rem 3rem;
-  font-size: 1rem;
-}
-
-.search-btn {
-  background-color: #fe424d;
-  border-radius: 50%;
-  padding: 10px 15px;
-  color: #fff;
-  border: none; /* Ensure there's no border on the button */
-}
-
-.search-btn:hover {
-  color: #fff;
-  background-color: #d13a45; /* Slightly darker color on hover */
-}
-
-/* Styling adjustments for smaller screens */
-@media (max-width: 767.98px) {
-  .navbar{
-    height: 4rem;
+  /* 🌟 Modern Navbar Styling */
+  .navbar {
+    background: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    border-radius: 10px;
   }
 
-    .navbar-nav {
+  .navbar-brand img {
+    height: 50px;
+    width: auto;
+  }
+
+  .navbar-nav .nav-link {
+    font-weight: 600;
+    color: #333;
+    padding: 0.75rem 1.2rem;
+    border-radius: 10px;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: #f0f0f0;
+  }
+
+  /* 🌍 Search Bar */
+  .search-bar {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .navbar-collapse {
-    background-color: #f8f9fa; /* Light background for collapsible menu */
-  }
-
-  .nav-link {
-    margin: 5px 0;
-    color: #222222;
-    padding: 10px;
-    background-color: #f7f7f7;
-    border-radius: 25px; /* Correct border-radius */
-    text-align: center;
-  }
-
-  .nav-link:hover{
-    background-color: #fff;
+    align-items: center;
+    background: #f3f4f6;
+    padding: 0.5rem;
+    border-radius: 50px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .search-input {
-   
-    border-radius: 25px;
-    padding: 0.3rem 1rem;
-    font-size: 0.9rem;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 250px;
   }
 
-  .search-btn {
-    border-radius: 50%;
-    padding: 5px 8px;
-    color: #fff;
+  .search-btn, .voice-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #fe424d;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
   }
 
+  .search-btn:hover, .voice-btn:hover {
+    color: #c9303e;
+  }
+
+  /* 🚨 SOS Button */
+  #sos-btn {
+    background: linear-gradient(135deg, #ff4d4d, #ff0000);
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+  }
+
+  #sos-btn:hover {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    transform: scale(1.05);
+  }
+
+  /* 👤 User Icon */
   .user-icon {
-    padding: 8px;
-    font-size: 16px;
-    margin-right: 10px;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
   }
 
-  #user {
-    padding: 1px;
-  }
+  /* 📱 Mobile Styles */
+  @media (max-width: 767.98px) {
+    .navbar {
+      padding: 1rem;
+    }
 
-  #user:hover{
-    background-color: #fff;
-  }
-}
+    .search-bar {
+      width: 100%;
+    }
 
+    .search-input {
+      width: 100%;
+    }
+
+    .navbar-nav {
+      text-align: center;
+    }
+  }
 </style>
 
+<!-- 🌐 NAVBAR -->
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"
-      ><i class="fa-regular fa-compass"></i
-    ></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-    >
+    
+    <a class="navbar-brand" href="/listings">
+      <img src="/assets/logo.jpg" alt="Brand Logo" class="navbar-logo">
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
-        <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        <a class="nav-link" href="/listings/new">Add Your Place</a>
       </div>
+
+      <!-- 🔎 Search Bar -->
       <div class="navbar-nav ms-auto">
         <form class="d-flex search-bar needs-validation" action="/listings/searchItem" method="get" role="search" novalidate>
-          <input
-            class="form-control me-2 search-input"
-            type="search" name="q"
-            placeholder="Search destinations"
-            aria-label="Search" 
-          />
+          <input id="search-input" class="form-control search-input" type="search" name="q" placeholder="Search destinations" aria-label="Search" />
+          
+          <button id="voice-btn" class="btn voice-btn" type="button">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+
           <button class="btn search-btn" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
       </div>
-      <div class="navbar-nav ms-auto">
-        <% if(!currUser) { %>
-        <a class="nav-link" href="/signup"><b>Signup</b></a>
-        <a class="nav-link" href="/login"><b>Log In</b></a>
-        <% } %> <% if(currUser) { %>
-        <a href="/profile" class="nav-link" id="user">
-          <b
-            ><i class="fa-solid fa-user user-icon"></i
-            ><i><%= currUser.username %></i></b
-          >
-        </a>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
+
+      <!-- 🚨 SOS & User Section -->
+      <div class="navbar-nav ms-auto d-flex align-items-center gap-3">
+        <a class="btn btn-danger" id="sos-btn"><b>SOS</b></a>
+
+        <% if (typeof currUser !== 'undefined' && currUser) { %>
+          <a href="/profile" class="nav-link d-flex align-items-center">
+            <i class="fa-solid fa-user user-icon"></i>
+            <b><%= currUser.username %></b>
+          </a>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/signup"><b>Signup</b></a>
+          <a class="nav-link" href="/login"><b>Log In</b></a>
         <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- 🎤 Voice Search & SOS Script -->
+<script>
+  document.getElementById("voice-btn").addEventListener("click", () => {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+
+    recognition.onstart = () => {
+      document.getElementById("search-input").placeholder = "Listening...";
+    };
+
+    recognition.onresult = (event) => {
+      document.getElementById("search-input").value = event.results[0][0].transcript.toLowerCase();
+    };
+
+    recognition.onerror = (event) => {
+      alert("Error: " + event.error);
+    };
+
+    recognition.onend = () => {
+      document.getElementById("search-input").placeholder = "Search destinations";
+    };
+
+    recognition.start();
+  });
+
+  // 🚨 SOS Button
+  document.getElementById("sos-btn").addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const payload = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+
+          console.log("Sending SOS with:", payload);
+
+          fetch("/send-sos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+            .then((response) => response.json())
+            .then((data) => alert(data.message))
+            .catch((error) => {
+              console.error("Error sending SOS:", error);
+              alert("Error sending SOS. Try again.");
+            });
+        },
+        (error) => {
+          alert("Location access denied. Please enable location services.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
+  });
+</script>

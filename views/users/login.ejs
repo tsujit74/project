@@ -1,14 +1,78 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-    .loginForm{
-        width: 400px;
+    /* Centering the login form */
+    .loginForm {
+      max-width: 400px;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+      
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
-</style>
+  
+    .loginForm:hover {
+      transform: scale(1.02);
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+    }
+  
+    /* Styling input fields */
+    .form-control {
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+  
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+    }
+  
+    /* Buttons with modern style */
+    .btn {
+      padding: 12px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      width: 48%;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+  
+    /* Responsive design */
+    @media (max-width: 576px) {
+      .loginForm {
+        width: 90%;
+        padding: 20px;
+      }
+      .btn {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+  
     <body>
         <div class="row mt-3">
             <div class="loginForm col-10 mx-auto my-0">
-                <h3>Login on Wanderlust</h3>
+                <h3>Login User</h3>
                 <form action="/login" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>

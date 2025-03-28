@@ -1,14 +1,103 @@
-<footer>
-    <div class="f-info">
-        <div class="f-info-socials">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-linkedin"></i>
-        </div>
-        <div class="f-info-brand"> &copy;  Wanderlust Privated Limited</div>
-        <div class="f-info-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-        </div>
+<style>
+    footer {
+      background: linear-gradient(135deg, #f8f9fa, #e2e6ea); /* Soft Gray Gradient */
+      color: #333; 
+      padding: 25px 0;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      border-top: 2px solid #ddd; /* Subtle Separator */
+    }
+  
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+  
+    .f-info-socials i {
+      font-size: 24px;
+      margin: 0 12px;
+      transition: transform 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      color: #333;
+    }
+  
+    .f-info-socials i:hover {
+      transform: scale(1.2);
+      color: #555; /* Darker hover */
+    }
+  
+    .f-info-brand {
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin: 10px 0;
+    }
+  
+    .f-info-links a {
+      color: #444;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+  
+    .f-info-links a:hover {
+      color: #222;
+      text-decoration: underline;
+    }
+  
+    .footer-bottom {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+      color: #555;
+    }
+  
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+  
+      .f-info-socials {
+        margin-bottom: 10px;
+      }
+  
+      .f-info-links a {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+  </style>
+  
+  <footer>
+    <div class="footer-container">
+      <div class="f-info-socials">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-linkedin"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-youtube"></i>
+      </div>
+      
+      <div class="f-info-brand">© <b>DHARMA SANCHARA</b> Private Limited</div>
+      
+      <div class="f-info-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Support</a>
+      </div>
     </div>
-</footer>
+    
+    <div class="footer-bottom">
+      Made with ❤️ for travel enthusiasts | All rights reserved
+    </div>
+  </footer>
+  

@@ -1,206 +1,178 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-  #filters {
+  #filters-container {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    padding: 6px;
-    border-radius: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 15px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  #filterToggle {
-    display: flexbox;
-    align-items: center;
-    margin: 0 auto;
-  }
-
-  #filters::-webkit-scrollbar {
-    display: none;
-  }
-  #filterToggle::-webkit-scrollbar {
+  #filters-container::-webkit-scrollbar {
     display: none;
   }
 
   .filter {
-    display: inline-block;
-    margin-top: 1rem;
     text-align: center;
-    margin-right: 1rem;
-    opacity: 0.7;
-    min-width: 70px;
-  }
-
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  /* Icon inside the filter */
-  .filter i {
-    font-size: 20px;
-  }
-
-  /* Text inside the filter */
-  .filter p {
-    font-size: 0.9rem;
-  }
-
-  /* Tax info */
-  .tax-Info {
-    display: none;
-    margin-left: 5px;
-  }
-
-  /* Tax toggle switch */
-  .tax-toggle {
-    border: 1px solid #ef424d;
-    border-radius: 1rem;
-    height: 3.1rem;
-    padding: 1rem;
-    margin-left: 2rem;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: #333;
+    background-color: #f8f9fa;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    width: fit-content;
+    justify-content: center;
+    min-width: 80px;
+  }
+
+  .filter:hover, .filter.active {
+    background-color: #e2e6ea;
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  .filter i {
+    font-size: 22px;
+    margin-bottom: 5px;
   }
 
   .filter a {
     text-decoration: none;
-    color: black;
+    color: inherit;
   }
 
-  /* Responsive adjustments for smaller screens */
+  .filters-wrapper {
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+
   @media (max-width: 767.98px) {
-
-    #filters{
-        width: fit-content;
-        margin-right:10px !important ;
-    }
-
-    #filterToggle{
-        display: block;
-        width: 100%;
-        margin: 0 auto;
+    #filters-container {
+      padding: 5px;
+      gap: 10px;
     }
 
     .filter {
       font-size: 12px;
-      min-width: 60px;
+      padding: 6px 10px;
     }
-
-    .filter i {
-      font-size: 16px;
-    }
-
-    #filterToggle {
-  position: relative; /* Ensure that the child elements position relative to this container */
-}
-
-.tax-toggle {
-  position: absolute;
-  top: -37%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  height: 3rem;
-  z-index: 9 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
-
-
   }
+
+  .listing-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .listing-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .listing-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  .listing-card .card-body {
+    padding: 15px;
+  }
+
+  .listing-card .card-text {
+    font-size: 16px;
+    color: #333;
+    margin-left: 10px;
+  }
+
 </style>
 
 <body>
-  <div class="row mx-auto my-0" id="filterToggle">
-    <div id="filters" class="col-9">
+  <div class="filters-wrapper">
+    <div id="filters-container">
       <div class="filter">
         <a href="/listings?filter=all">
-          <div><i class="fa-solid fa-house"></i></div>
+          <i class="fa-solid fa-house"></i>
           <p>All</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=trending">
-          <div><i class="fa-solid fa-fire"></i></div>
+          <i class="fa-solid fa-fire"></i>
           <p>Trending</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=rooms">
-          <div><i class="fa-solid fa-bed"></i></div>
+          <i class="fa-solid fa-bed"></i>
           <p>Rooms</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=temple">
-          <div><i class="fa-solid fa-gopuram"></i></div>
+          <i class="fa-solid fa-gopuram"></i>
           <p>Temple</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=cities">
-          <div><i class="fa-solid fa-city"></i></div>
+          <i class="fa-solid fa-city"></i>
           <p>Cities</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=mountains">
-          <div><i class="fa-solid fa-mountain"></i></div>
+          <i class="fa-solid fa-mountain"></i>
           <p>Mountains</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=castles">
-          <div><i class="fa-solid fa-fort-awesome"></i></div>
+          <i class="fa-solid fa-fort-awesome"></i>
           <p>Castles</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=camping">
-          <div><i class="fa-solid fa-campground"></i></div>
+          <i class="fa-solid fa-campground"></i>
           <p>Camping</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=arctic">
-          <div><i class="fa-solid fa-snowflake"></i></div>
+          <i class="fa-solid fa-snowflake"></i>
           <p>Arctic</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=farms">
-          <div><i class="fa-solid fa-cow"></i></div>
+          <i class="fa-solid fa-cow"></i>
           <p>Farms</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=domes">
-          <div><i class="fa-solid fa-igloo"></i></div>
+          <i class="fa-solid fa-igloo"></i>
           <p>Domes</p>
         </a>
       </div>
       <div class="filter">
         <a href="/listings?filter=boats">
-          <div><i class="fa-solid fa-ship"></i></div>
+          <i class="fa-solid fa-ship"></i>
           <p>Boats</p>
         </a>
-      </div>
-    </div>
-
-    <div class="tax-toggle col-2">
-      <div class="form-check-reverse form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="flexSwitchCheckDefault"
-        />
-        <label class="form-check-label" for="flexSwitchCheckDefault">
-          After taxes
-        </label>
       </div>
     </div>
   </div>
@@ -211,28 +183,16 @@
       <div class="alert alert-info mx-auto my-0">
         No listings found for this filter.
       </div>
-      <% } %> <% for(let listing of allListing){ %>
+      <% } %> 
+      <% for(let listing of allListing){ %>
       <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="card listing-card">
-          <img
-            src="<%=   listing.image.url %>"
-            class="card-img-top"
-            alt="listing image"
-            style="height: 20rem"
-          />
-          <div class="card-img-overlay"></div>
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image" />
           <div class="card-body">
             <p class="card-text">
-              <b>
-                <b> <i>@<%=listing.owner.username %></i> </b><br />
+              <b><i>@<%=listing.owner.username %></i> <br />
                 <%= listing.title %>
               </b>
-              <br />
-              &#8377; <%= listing.price.toLocaleString("en-IN") %> / nights
-              <i class="tax-Info"
-                >after GST- <%=((listing.price *
-                0.18)+listing.price).toLocaleString("en-IN") %></i
-              >
             </p>
           </div>
         </div>
@@ -240,18 +200,4 @@
       <% } %>
     </div>
   </div>
-
-  <script>
-    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("click", () => {
-      let taxInfo = document.getElementsByClassName("tax-Info");
-      for (let info of taxInfo) {
-        if (info.style.display != "inline") {
-          info.style.display = "inline";
-        } else {
-          info.style.display = "none";
-        }
-      }
-    });
-  </script>
 </body>

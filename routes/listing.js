@@ -23,7 +23,7 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 router
   .route("/:id")
-  .get(trackListingView, wrapAsync(listingController.showListing))
+  .get( trackListingView, wrapAsync(listingController.showListing))
   .put(
     isLoggedIn,
     isOwner,
@@ -40,5 +40,8 @@ router.get(
   isOwner,
   wrapAsync(listingController.renderEditForm)
 );
+
+router.post("/:id/book", isLoggedIn, wrapAsync(listingController.bookListing));
+
 
 module.exports = router;

@@ -1,6 +1,74 @@
 const Listing = require("../models/listing.js");
 const tt = require("@tomtom-international/web-sdk-services/dist/services-node.min.js");
 
+const nodemailer = require("nodemailer");
+
+module.exports.bookListing = async (req, res) => {
+  try {
+      let { id } = req.params;
+      const listing = await Listing.findById(id).populate("owner");
+
+      if (!listing) {
+          req.flash("error", "Listing not found!");
+          return res.redirect("/listings");
+      }
+
+      const owner = listing.owner;
+      const user = req.user; // The person making the booking
+
+      if (!owner || !owner.email) {
+          req.flash("error", "Listing owner does not have a valid email.");
+          return res.redirect(`/listings/${id}`);
+      }
+
+      if (!user || !user.email) {
+          req.flash("error", "Your account does not have a valid email.");
+          return res.redirect(`/listings/${id}`);
+      }
+
+      // ✅ Set up Nodemailer transporter
+      const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+              user: process.env.EMAIL_USER, // Your Gmail
+              pass:"ewjlkbewmjaygcds", // Your App Password
+          },
+      });
+
+      // ✅ Email to the Listing Owner
+      const ownerMailOptions = {
+          from: process.env.EMAIL_USER,
+          to: owner.email,
+          subject: "New Booking Request",
+          text: `Hello ${owner.username},\n\n${user.username} has requested to book your listing: "${listing.title}".\n\nContact them at: ${user.email}.\n\nBest regards,\nYour Team`,
+      };
+
+      // ✅ Email Confirmation to the User
+      const userMailOptions = {
+          from: process.env.EMAIL_USER,
+          to: user.email,
+          subject: "Booking Confirmation",
+          text: `Hello ${user.username},\n\nYour booking request for "${listing.title}" has been sent to ${owner.username}.\n\nThey will contact you at your email (${user.email}) if the booking is accepted.\n\nBest regards,\nYour Team`,
+      };
+
+      // ✅ Send both emails in parallel
+      await Promise.all([
+          transporter.sendMail(ownerMailOptions),
+          transporter.sendMail(userMailOptions),
+      ]);
+
+      req.flash("success", `Booking request sent to ${owner.username} and confirmation email sent to you!`);
+      res.redirect(`/listings/${id}`);
+
+  } catch (err) {
+      console.error("Email sending error:", err);
+      req.flash("error", "Something went wrong while booking!");
+      res.redirect("/listings");
+  }
+};
+
+
+
 module.exports.index = async (req, res) => {
   const { filter } = req.query;
 

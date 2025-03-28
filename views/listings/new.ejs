@@ -1,12 +1,93 @@
 <% layout("/layouts/boilerplate") %>
 
-<style>
+<!-- <style>
+
+  
   /* @media (max-width: 768px) { */
   .createListing {
     width: 600px;
   }
   /* } */
+</style> -->
+
+<style>
+  /* Center the form with better spacing */
+  .createListing {
+    max-width: 600px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  /* Form input styling */
+  .form-control, .form-select {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  }
+
+  /* Placeholder styling */
+  .form-control::placeholder {
+    color: #aaa;
+  }
+
+  /* Button styling */
+  .btn {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-dark {
+    background-color: #343a40;
+    color: white;
+    border: none;
+  }
+
+  .btn-dark:hover {
+    background-color: #23272b;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .createListing {
+      width: 90%;
+      padding: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
 </style>
+
 
 <body>
   <div class="row mt-3">
