@@ -2,8 +2,6 @@
 
 ````markdown
 
-```
-
 # 🌍 Wanderlust (Dharmsanchara)
 
 A **full-stack travel platform** that allows users to explore, list, and review travel destinations. Integrated with **TomTom Maps API** for real-time location visualization and secure user authentication with Passport.  
@@ -12,8 +10,7 @@ A **full-stack travel platform** that allows users to explore, list, and review 
 🔗 [Wanderlust App](https://project-wander.onrender.com/listings)  
 
 ---
-```
-```
+
 ## ✨ Key Features  
 - 🔑 **User Authentication** – Login, Logout, and Profile Management  
 - 📝 **CRUD Operations** – Add, Edit, and Delete Travel Listings  
@@ -34,7 +31,6 @@ A **full-stack travel platform** that allows users to explore, list, and review 
 - 🌐 **Multi-language Support** – Accessible for global users  
 
 ---
-```
 
 ## 🛠 Tech Stack  
 - **Frontend:** HTML, CSS, JavaScript  
@@ -63,18 +59,16 @@ A **full-stack travel platform** that allows users to explore, list, and review 
 
 ### 📝 Create Listing  
 ![Create Listing](/public/screenshots/create-listing.png)  
-```
+
 ---
 
 ## ⚡ Installation & Setup  
 
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/tsujit74/project
+   git clone https://github.com/tsujit74/project.git
    cd project
 
-
----
 
 ## ⚡ Installation & Setup  
 
