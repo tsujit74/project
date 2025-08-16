@@ -66,6 +66,16 @@ A **full-stack travel platform** that allows users to explore, list, and review 
    ```bash
    git clone https://github.com/tsujit74/project
    cd project
+
+
+---
+
+## ⚡ Installation & Setup  
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/tsujit74/project
+   cd project
 ````
 
 2. **Install dependencies**
