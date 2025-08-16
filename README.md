@@ -1,7 +1,6 @@
 
 
 ````markdown
-
 # 🌍 Wanderlust (Dharmsanchara)
 
 A **full-stack travel platform** that allows users to explore, list, and review travel destinations. Integrated with **TomTom Maps API** for real-time location visualization and secure user authentication with Passport.  
@@ -68,14 +67,6 @@ A **full-stack travel platform** that allows users to explore, list, and review 
    ```bash
    git clone https://github.com/tsujit74/project.git
    cd project
-
-
-## ⚡ Installation & Setup  
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/tsujit74/project
-   cd project
 ````
 
 2. **Install dependencies**
@@ -116,4 +107,6 @@ Developed with ❤️ by **Sujit Thakur** 🚀
 📌 [Portfolio](https://sujit-porttfolio.vercel.app/) | [GitHub](https://github.com/tsujit74) | [LinkedIn](https://www.linkedin.com/in/sujit74)
 
 ---
+
+```
 ```
