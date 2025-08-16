@@ -132,6 +132,19 @@
         </form>
       </div>
 
+      <div class="navbar-nav ms-auto">
+        <select id="language-selector" class="form-select">
+          <option value="en">🌍 English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="zh-CN">中文</option>
+          <option value="ar">العربية</option>
+          <option value="ru">Русский</option>
+        </select>
+      </div>
+
       <!-- 🚨 SOS & User Section -->
       <div class="navbar-nav ms-auto d-flex align-items-center gap-3">
         <a class="btn btn-danger" id="sos-btn"><b>SOS</b></a>
@@ -150,6 +163,40 @@
     </div>
   </div>
 </nav>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  // Initialize Google Translate widget
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',  // Default language of the page
+      includedLanguages: 'en,hi,es,fr,de,zh-CN,ar,ru', // Languages to support
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false,  // Don't auto display the Google Translate dropdown
+    }, 'google_translate_element');
+  }
+
+  // Wait for the page to load and handle language changes
+  document.addEventListener("DOMContentLoaded", function () {
+    // Create a listener for the language selector change
+    const languageSelector = document.getElementById('language-selector');
+    languageSelector.addEventListener('change', function () {
+      const selectedLanguage = this.value;
+
+      if (selectedLanguage) {
+        // Access Google Translate and trigger the language change
+        const translateElement = new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        const langSelect = document.querySelector('.goog-te-combo');  // Google's language dropdown
+        if (langSelect) {
+          langSelect.value = selectedLanguage;  // Set selected language in Google Translate's dropdown
+          langSelect.dispatchEvent(new Event("change"));  // Trigger language change
+        }
+      }
+    });
+  });
+</script>
+
 
 <!-- 🎤 Voice Search & SOS Script -->
 <script>
@@ -208,4 +255,6 @@
       alert("Geolocation is not supported by your browser.");
     }
   });
+
+  
 </script>

@@ -89,7 +89,7 @@
     padding: 15px;
     transition: 0.3s ease-in-out;
   }
-  
+
   .review-card:hover {
     transform: scale(1.02);
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
@@ -109,7 +109,6 @@
   }
 </style>
 
-
 <body>
   <script>
     const mapToken = "<%= process.env.MAP_API_KEY %>";
@@ -127,7 +126,9 @@
         alt="listing_image"
       />
       <div class="card-body">
-        <p class="card-text"><b>Created By:</b> <i><%= listing.owner.username %></i></p>
+        <p class="card-text">
+          <b>Created By:</b> <i><%= listing.owner.username %></i>
+        </p>
         <p class="card-text"><%= listing.description %></p>
         <p class="card-text"><%= listing.location %></p>
         <p class="card-text"><%= listing.country %></p>
@@ -137,126 +138,180 @@
 
     <div class="btns col-11 show-view mt-2 mx-auto my-0">
       <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary ms-0">Edit</a>
-        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="d-inline">
-          <button class="btn btn-danger ms-3">Delete</button>
-        </form>
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary ms-0"
+        >Edit</a
+      >
+      <form
+        method="post"
+        action="/listings/<%= listing._id %>?_method=DELETE"
+        class="d-inline"
+      >
+        <button class="btn btn-danger ms-3">Delete</button>
+      </form>
       <% } %>
       <form action="/listings/<%= listing._id %>/book" method="POST">
         <button type="submit" class="btn btn-primary">Book Guide</button>
-    </form>
-
-    
-    
-    
-    
+      </form>
     </div>
 
     <div class="col-11 show-view mt-4 mx-auto my-0">
       <h4>Recommended Hotels Nearby</h4>
       <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Tranquil Retreat Inn <span>₹2,500</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Divine Stay Residency <span>₹3,000</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Pilgrim’s Haven Lodge <span>₹2,200</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Sacred Pathway Suites <span>₹4,000</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Serene Temple View Hotel <span>₹3,500</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Eternal Bliss Stay <span>₹2,800</span>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-               Harmony Pilgrims Rest <spna>₹3,200</spna>
-              <button class="btn btn-primary btn-sm">Book Now</button>
-          </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Tranquil Retreat Inn <span>₹2,500</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Divine Stay Residency <span>₹3,000</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Pilgrim’s Haven Lodge <span>₹2,200</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Sacred Pathway Suites <span>₹4,000</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Serene Temple View Hotel <span>₹3,500</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Eternal Bliss Stay <span>₹2,800</span>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          Harmony Pilgrims Rest <spna>₹3,200</spna>
+          <button class="btn btn-primary btn-sm">Book Now</button>
+        </li>
       </ul>
     </div>
-    
-  
-    
 
     <div class="col-11 show-view mx-auto my-0 mb-3">
       <% if (currUser) { %>
-        <hr />
-        <h4>Leave a Review</h4>
-        <form
-          action="/listings/<%= listing._id %>/reviews"
-          method="post"
-          novalidate
-          class="needs-validation"
-        >
-          <div class="mb-1 mt-3">
-            <label for="rating">Rating:</label>
-            <fieldset class="starability-slot">
-              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
-              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-              <label for="first-rate1" title="Terrible">1 star</label>
-              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-              <label for="first-rate2" title="Not good">2 stars</label>
-              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-              <label for="first-rate3" title="Average">3 stars</label>
-              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-              <label for="first-rate4" title="Very good">4 stars</label>
-              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-              <label for="first-rate5" title="Amazing">5 stars</label>
-            </fieldset>
-          </div>
+      <hr />
+      <h4>Leave a Review</h4>
+      <form
+        action="/listings/<%= listing._id %>/reviews"
+        method="post"
+        novalidate
+        class="needs-validation"
+      >
+        <div class="mb-1 mt-3">
+          <label for="rating">Rating:</label>
+          <fieldset class="starability-slot">
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="review[rating]"
+              value="1"
+              checked
+              aria-label="No rating."
+            />
+            <input
+              type="radio"
+              id="first-rate1"
+              name="review[rating]"
+              value="1"
+            />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input
+              type="radio"
+              id="first-rate2"
+              name="review[rating]"
+              value="2"
+            />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input
+              type="radio"
+              id="first-rate3"
+              name="review[rating]"
+              value="3"
+            />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input
+              type="radio"
+              id="first-rate4"
+              name="review[rating]"
+              value="4"
+            />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input
+              type="radio"
+              id="first-rate5"
+              name="review[rating]"
+              value="5"
+            />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+        </div>
 
-          <div class="mb-3">
-            <label for="comment" class="form-label">Comment:</label>
-            <textarea
-              name="review[comment]"
-              id="comment"
-              class="form-control"
-              placeholder="Comment"
-              required
-            ></textarea>
-            <div class="invalid-feedback">Please add some comment for review</div>
-          </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label">Comment:</label>
+          <textarea
+            name="review[comment]"
+            id="comment"
+            class="form-control"
+            placeholder="Comment"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Please add some comment for review</div>
+        </div>
 
-          <div class="mb-3">
-            <button class="btn btn-outline-dark">Submit</button>
-          </div>
-        </form>
+        <div class="mb-3">
+          <button class="btn btn-outline-dark">Submit</button>
+        </div>
+      </form>
       <% } %>
       <hr />
 
       <% if (listing.reviews.length > 0) { %>
-        <div class="row">
-          <b><p>All Reviews</p></b>
-          <% for (let review of listing.reviews) { %>
-            <div class="card col-12 col-md-5 ms-md-2 mb-3">
-              <div class="card-body">
-                <div class="d-flex align-items-center ms-0">
-                  <h5 class="card-title">@<%= review.author.username %></h5>
-                  <p class="card-text ms-auto" style="font-size: 14px;"><%= review.createdAt.toLocaleDateString() %></p>
-                </div>
-                <p class="starability-result card-text mb-2" data-rating="<%= review.rating %>"></p>
-                <p class="card-text"><%= review.comment %></p>
-              </div>
-
-              <% if (currUser && currUser._id.equals(review.author._id)) { %>
-                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="mb-3">
-                  <button class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
-              <% } %>
+      <div class="row">
+        <b><p>All Reviews</p></b>
+        <% for (let review of listing.reviews) { %>
+        <div class="card col-12 col-md-5 ms-md-2 mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center ms-0">
+              <h5 class="card-title">@<%= review.author.username %></h5>
+              <p class="card-text ms-auto" style="font-size: 14px">
+                <%= review.createdAt.toLocaleDateString() %>
+              </p>
             </div>
+            <p
+              class="starability-result card-text mb-2"
+              data-rating="<%= review.rating %>"
+            ></p>
+            <p class="card-text"><%= review.comment %></p>
+          </div>
+
+          <% if (currUser && currUser._id.equals(review.author._id)) { %>
+          <form
+            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+            method="post"
+            class="mb-3"
+          >
+            <button class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
           <% } %>
         </div>
+        <% } %>
+      </div>
       <% } %>
     </div>
 
@@ -267,55 +322,85 @@
     <hr />
   </div>
 
-  <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.1/maps/maps-web.min.js'></script>
+  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.1/maps/maps-web.min.js"></script>
+  <p id="distance-time">Fetching route details...</p>
+
+
   <script>
-    function testRouteAPI() {
+    async function fetchListings() {
+      try {
+        const response = await fetch("/api/listings"); // API to fetch listings
+        const listings = await response.json();
+        return listings;
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+        return [];
+      }
+    }
+
+    function getUserLocation(callback) {
       if (!navigator.geolocation) {
-        document.getElementById("distance-time").innerHTML = "Geolocation is not supported.";
+        document.getElementById("-time").innerText =
+          "Geolocation is not supported.";
         return;
       }
-  
-      navigator.geolocation.getCurrentPosition(position => {
-        const origin = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-  
-        const destination = {
-          lat: 13.6288,  // Tirupati Latitude
-          lng: 79.4192   // Tirupati Longitude
-        };
-  
-        const apiKey = "AKZLb1A5lzD8pWA70m0haKsBM4Ehc4vE"; // Replace with your actual API key
-        const apiUrl = `https://api.tomtom.com/routing/1/calculateRoute/${origin.lat},${origin.lng}:${destination.lat},${destination.lng}/json?key=${apiKey}&travelMode=car`;
-  
-        fetch(apiUrl)
-          .then(response => response.json())
-          .then(data => {
-            console.log("Route Data:", data);
+
+      navigator.geolocation.getCurrentPosition(
+        (position) =>
+          callback(position.coords.latitude, position.coords.longitude),
+        (error) => {
+          console.error("Geolocation error:", error);
+          document.getElementById("-time").innerText =
+            "Geolocation is disabled.";
+        }
+      );
+    }
+
+    async function calculateRoute() {
+      getUserLocation(async (userLat, userLng) => {
+        const listings = await fetchListings();
+
+        if (listings.length === 0) {
+          document.getElementById("-time").innerText =
+            "No listings found.";
+          return;
+        }
+
+        let resultText = "";
+
+        for (let listing of listings) {
+          if (!listing.position || !listing.position.coordinates) continue;
+
+          const [lng, lat] = listing.position.coordinates; // Listing coordinates
+          const apiKey = "AKZLb1A5lzD8pWA70m0haKsBM4Ehc4vE"; // Replace with your TomTom API key
+          const apiUrl = `https://api.tomtom.com/routing/1/calculateRoute/${userLat},${userLng}:${lat},${lng}/json?key=${apiKey}&travelMode=car`;
+
+          try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
             if (data.routes && data.routes.length > 0) {
               const route = data.routes[0].summary;
-              document.getElementById("distance-time").innerHTML =
-                `📍 Distance: ${(route.lengthInMeters / 1000).toFixed(1)} km | ⏳ Time: ${(route.travelTimeInSeconds / 60).toFixed(0)} min`;
+              resultText += `📍 <b>${listing.title}</b>: ${(
+                route.lengthInMeters / 1000
+              ).toFixed(1)} km | ⏳ ${(route.travelTimeInSeconds / 60).toFixed(
+                0
+              )} min<br>`;
             } else {
-              document.getElementById("distance-time").innerHTML = "Unable to calculate route.";
+              resultText += `⚠️ Unable to calculate route for ${listing.title}.<br>`;
             }
-          })
-          .catch(error => {
-            console.error("Error fetching route details:", error);
-            document.getElementById("distance-time").innerHTML =
-              "Error fetching route details. Check API Key.";
-          });
-      }, () => {
-        document.getElementById("distance-time").innerHTML = "Geolocation is disabled.";
+          } catch (error) {
+            console.error("Error fetching route:", error);
+            resultText += `⚠️ Error fetching route for ${listing.title}.<br>`;
+          }
+        }
+
+        document.getElementById("-time").innerHTML = resultText;
       });
     }
-  
-    window.onload = testRouteAPI;
+
+    window.onload = calculateRoute;
   </script>
-  
-  <p id="distance-time">Fetching route details...</p>
-  
-  
+
   <script src="/js/map.js"></script>
 </body>
